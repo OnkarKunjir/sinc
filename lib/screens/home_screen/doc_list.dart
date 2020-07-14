@@ -1,28 +1,15 @@
 import 'package:flutter/material.dart';
 import './doc_card.dart';
-import '../../colors.dart';
 
 class DocList extends StatelessWidget {
-  final List<String> _docNames = [];
+  final List<String> docNames;
 
-  DocList() {
-    _getDocNames();
-  }
-
-  void _getDocNames() {
-    const featchedNames = [
-      'Algorithums book',
-      'TOC notes',
-      'bing bong',
-      'ching chong'
-    ];
-    _docNames.addAll(featchedNames);
-  }
+  DocList({@required this.docNames});
 
   List<DocCard> _generateCard() {
-    return List.generate(_docNames.length, (index) {
+    return List.generate(docNames.length, (index) {
       return DocCard(
-          title: _docNames[index],
+          title: docNames[index],
           thumbnail:
               index.isEven ? 'assets/images/0.jpeg' : 'assets/images/1.jpeg');
     });
@@ -30,7 +17,7 @@ class DocList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _docNames.length == 0
+    return docNames.length == 0
         ? SliverList(
             delegate: SliverChildListDelegate(
               [
@@ -43,7 +30,7 @@ class DocList extends StatelessWidget {
             ),
           )
         : SliverGrid.count(
-            childAspectRatio: 7 / 8,
+            childAspectRatio: 0.87,
             crossAxisCount: 2,
             children: _generateCard(),
           );

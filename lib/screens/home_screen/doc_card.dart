@@ -15,7 +15,7 @@ class DocCard extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
       padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(10)),
+        borderRadius: BorderRadius.all(Radius.circular(15)),
         color: Colors.white,
         boxShadow: [
           BoxShadow(
@@ -31,18 +31,21 @@ class DocCard extends StatelessWidget {
           ClipRRect(
             clipBehavior: Clip.antiAlias,
             borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
+              topLeft: Radius.circular(15),
+              topRight: Radius.circular(15),
             ),
             child: Image.asset(
               this.thumbnail,
-              height: 130,
+              height: 150,
               fit: BoxFit.cover,
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-            child: Text(this.title),
+            child: Text(
+              this.title,
+              textAlign: TextAlign.center,
+            ),
           )
         ],
       ),
