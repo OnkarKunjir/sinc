@@ -4,17 +4,17 @@ class SearchBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-      elevation: 0,
+      elevation: 10,
       floating: true,
       snap: true,
       pinned: true,
       title: Text('Sinc'),
       leading: IconButton(icon: Icon(Icons.menu), onPressed: () => null),
-      expandedHeight: 150,
+      expandedHeight: 110,
       shape: ContinuousRectangleBorder(
         borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(100),
-          bottomRight: Radius.circular(100),
+          bottomLeft: Radius.circular(80),
+          bottomRight: Radius.circular(80),
         ),
       ),
       flexibleSpace: FlexibleSpaceBar(
@@ -25,7 +25,7 @@ class SearchBox extends StatelessWidget {
               right: 0,
               bottom: 10,
               child: Container(
-                height: 50,
+                height: 40,
                 margin: EdgeInsets.symmetric(horizontal: 20),
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 decoration: BoxDecoration(
@@ -35,6 +35,7 @@ class SearchBox extends StatelessWidget {
                 child: TextField(
                   decoration: InputDecoration(
                     hintText: 'Search',
+                    contentPadding: EdgeInsets.symmetric(vertical: 10),
                     enabledBorder: InputBorder.none,
                     focusedBorder: InputBorder.none,
                     icon: Icon(Icons.search),

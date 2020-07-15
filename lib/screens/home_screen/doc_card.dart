@@ -3,10 +3,11 @@ import '../../colors.dart';
 
 class DocCard extends StatelessWidget {
   final String title, thumbnail;
-
+  final double cardHeight;
   DocCard({
     @required this.title,
     @required this.thumbnail,
+    @required this.cardHeight,
   });
 
   @override
@@ -36,7 +37,7 @@ class DocCard extends StatelessWidget {
             ),
             child: Image.asset(
               this.thumbnail,
-              height: 150,
+              height: this.cardHeight * 0.6,
               fit: BoxFit.cover,
             ),
           ),

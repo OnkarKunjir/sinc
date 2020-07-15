@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:camera/camera.dart';
 import './screens/home_screen/home_screen.dart';
 import './theme.dart';
 
-void main() => runApp(App());
+void main() {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // final cameras = await availableCameras();
+  // final firstCamera = cameras.first;
+  runApp(App());
+}
 
 class App extends StatelessWidget {
   @override

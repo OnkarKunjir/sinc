@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sinc/file_operations.dart';
+import '../camera_screen/camera_screen.dart';
 import './search_box.dart';
 import './doc_list.dart';
 
@@ -39,7 +40,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _addNewDoc() {
-    // TODO : Add new document to storage.
     // function to add new document
     String fileName = 'New File${this._docNames.length}';
     this.fileOperations.createDoc(fileName);
@@ -47,6 +47,13 @@ class _HomeScreenState extends State<HomeScreen> {
       _docNames.add(fileName);
       _thumbnails.add('new thumbnail');
     });
+  }
+
+  void _launchCamera(context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => CameraScreen()),
+    );
   }
 
   @override
@@ -65,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton.extended(
         icon: Icon(Icons.camera),
         label: Text('Scan'),
-        onPressed: _addNewDoc,
+        onPressed: () => _addNewDoc(),
       ),
     );
   }

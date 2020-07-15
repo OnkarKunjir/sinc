@@ -10,10 +10,6 @@ class FileOperations {
     // create document directory if does not exist
     this.documentDirectory =
         await Directory(documentDirPath).create(recursive: false);
-
-    // remove this after implementing
-    // await Directory(this.documentDirectory.path + '/Test document')
-    //     .create(recursive: false);
   }
 
   Future<List<String>> getDocPaths() async {
@@ -21,15 +17,6 @@ class FileOperations {
         this.documentDirectory.listSync(recursive: false);
 
     return List.generate(docs.length, (index) => docs[index].path);
-  }
-
-  Future<void> listDir() {
-    this
-        .documentDirectory
-        .list(recursive: true, followLinks: false)
-        .listen((event) {
-      print(event.path);
-    });
   }
 
   void createDoc(String docName) {
@@ -40,6 +27,5 @@ class FileOperations {
   void deleteDoc(String docName) {
     Directory(this.documentDirectory.path + '/$docName')
         .deleteSync(recursive: true);
-    listDir();
   }
 }
