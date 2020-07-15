@@ -4,16 +4,31 @@ import './doc_card.dart';
 // TODO : Use thumbnails from storage.
 class DocList extends StatelessWidget {
   final List<String> docNames;
+  final deleteCallback;
+  DocList({@required this.docNames, @required this.deleteCallback});
 
-  DocList({@required this.docNames});
-
-  List<DocCard> _generateCard() {
-    return List.generate(docNames.length, (index) {
-      return DocCard(
-          title: docNames[index],
-          thumbnail:
-              index.isEven ? 'assets/images/0.jpeg' : 'assets/images/1.jpeg');
-    });
+  List<Widget> _generateCard(context) {
+    return List.generate(
+      docNames.length,
+      (index) {
+        return GestureDetector(
+          onLongPress: () {
+            Scaffold.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Delete ${docNames[index]}?'),
+                action: SnackBarAction(
+                    label: 'Delete', onPressed: () => deleteCallback(index)),
+              ),
+            );
+          },
+          child: DocCard(
+              title: docNames[index],
+              thumbnail: index.isEven
+                  ? 'assets/images/0.jpeg'
+                  : 'assets/images/1.jpeg'),
+        );
+      },
+    );
   }
 
   @override
@@ -33,7 +48,7 @@ class DocList extends StatelessWidget {
         : SliverGrid.count(
             childAspectRatio: 0.87,
             crossAxisCount: 2,
-            children: _generateCard(),
+            children: _generateCard(context),
           );
   }
 }

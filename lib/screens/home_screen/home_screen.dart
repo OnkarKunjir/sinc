@@ -30,11 +30,22 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  dynamic deleteCallback(int index) {
+    fileOperations.deleteDoc(this._docNames[index]);
+    setState(() {
+      this._docNames.removeAt(index);
+      this._thumbnails.removeAt(index);
+    });
+  }
+
   void _addNewDoc() {
     // TODO : Add new document to storage.
     // function to add new document
+    String fileName = 'New File${this._docNames.length}';
+    this.fileOperations.createDoc(fileName);
     setState(() {
-      _docNames.add('New File');
+      _docNames.add(fileName);
+      _thumbnails.add('new thumbnail');
     });
   }
 
@@ -47,6 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
           SearchBox(),
           DocList(
             docNames: _docNames,
+            deleteCallback: deleteCallback,
           ),
         ],
       ),
