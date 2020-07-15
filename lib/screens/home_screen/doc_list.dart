@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './doc_card.dart';
 
+// TODO : Use thumbnails from storage.
 class DocList extends StatelessWidget {
   final List<String> docNames;
 

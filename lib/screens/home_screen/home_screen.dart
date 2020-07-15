@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sinc/file_operations.dart';
 import './search_box.dart';
 import './doc_list.dart';
 
@@ -9,18 +10,23 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final List<String> _docNames = [];
+  final List<String> _thumbnails = [];
+  final fileOperations = FileOperations();
+
   _HomeScreenState() {
     _getDocNames();
   }
 
   Future<void> _getDocNames() async {
-    // TODO : Featch the file names from the storage
-    const List<String> featchedNames = [];
+    await fileOperations.init();
+    List<String> featchedNames = await this.fileOperations.getDocPaths();
 
-    Future.delayed(Duration(seconds: 2), () {
-      setState(() {
-        _docNames.addAll(featchedNames);
-      });
+    setState(() {
+      this._docNames.addAll(List.generate(featchedNames.length,
+          (index) => featchedNames[index].split('/').last));
+
+      this._thumbnails.addAll(List.generate(
+          featchedNames.length, (index) => featchedNames[index] + '/0.jpeg'));
     });
   }
 
