@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:camera/camera.dart';
 import './screens/home_screen/home_screen.dart';
 import './theme.dart';
 
 void main() {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // final cameras = await availableCameras();
-  // final firstCamera = cameras.first;
   runApp(App());
 }
 

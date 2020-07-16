@@ -72,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton.extended(
         icon: Icon(Icons.camera),
         label: Text('Scan'),
-        onPressed: () => _addNewDoc(),
+        onPressed: () => _launchCamera(context),
       ),
     );
   }

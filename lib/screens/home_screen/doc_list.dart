@@ -7,10 +7,7 @@ class DocList extends StatelessWidget {
   final deleteCallback;
   DocList({@required this.docNames, @required this.deleteCallback});
 
-  double cardWidth = 0;
-  double cardHeight = 0;
-
-  List<Widget> _generateCard(context) {
+  List<Widget> _generateCard(context, cardHeight) {
     return List.generate(
       docNames.length,
       (index) {
@@ -39,8 +36,8 @@ class DocList extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     // print((size.width * 0.5) / (size.height * 0.3));
-    this.cardWidth = size.width * 0.5;
-    this.cardHeight = size.height * 0.3;
+    double cardWidth = size.width * 0.5;
+    double cardHeight = size.height * 0.3;
 
     return docNames.length == 0
         ? SliverList(
@@ -58,9 +55,9 @@ class DocList extends StatelessWidget {
           )
         : SliverGrid.count(
             // childAspectRatio: 0.87,
-            childAspectRatio: this.cardWidth / this.cardHeight,
+            childAspectRatio: cardWidth / cardHeight,
             crossAxisCount: 2,
-            children: _generateCard(context),
+            children: _generateCard(context, cardHeight),
           );
   }
 }
