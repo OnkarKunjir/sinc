@@ -7,7 +7,9 @@ import '../confim_screen/confirm_screen.dart';
 
 class CameraScreen extends StatefulWidget {
   final FileOperations fileOperations;
-  CameraScreen({@required this.fileOperations});
+  CameraScreen({@required this.fileOperations}) {
+    fileOperations.emptyCacheDir();
+  }
 
   @override
   _CameraScreenState createState() => _CameraScreenState();
@@ -17,7 +19,6 @@ class _CameraScreenState extends State<CameraScreen> {
   CameraController controller;
   List<CameraDescription> cameras;
   dynamic _initializeControllerFuture;
-  // String tempPath = '';
   @override
   void initState() {
     super.initState();
@@ -75,7 +76,7 @@ class _CameraScreenState extends State<CameraScreen> {
         child: Stack(
           children: <Widget>[
             SizedBox(
-              height: 60,
+              height: 80,
             ),
             Positioned(
               right: 40,

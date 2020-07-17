@@ -1,5 +1,6 @@
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
+import 'dart:async';
 
 class FileOperations {
   Directory documentDirectory;
@@ -30,5 +31,11 @@ class FileOperations {
   void deleteDoc(String docName) {
     Directory(this.documentDirectory.path + '/$docName')
         .deleteSync(recursive: true);
+  }
+
+  Future<void> emptyCacheDir() async {
+    this.tempDirectory.list(recursive: true).listen((event) async {
+      await event.delete(recursive: true);
+    });
   }
 }
