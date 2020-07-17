@@ -1,9 +1,8 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import './preview_body.dart';
-import '../../colors.dart';
+import './bottom_bar.dart';
 import '../../file_operations.dart';
-import '../confim_screen/confirm_screen.dart';
 
 class CameraScreen extends StatefulWidget {
   final FileOperations fileOperations;
@@ -17,6 +16,8 @@ class CameraScreen extends StatefulWidget {
 
 class _CameraScreenState extends State<CameraScreen> {
   CameraController controller;
+  int count = 0;
+
   List<CameraDescription> cameras;
   dynamic _initializeControllerFuture;
   @override
@@ -36,17 +37,12 @@ class _CameraScreenState extends State<CameraScreen> {
     super.dispose();
   }
 
-  Future<void> tempSave(context) async {
+  Future<void> tempSave(context) {
     String tempPath = widget.fileOperations.tempDirectory.path;
-    await controller.takePicture('$tempPath/${DateTime.now()}.png');
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ConfirmScreen(
-          fileOperations: widget.fileOperations,
-        ),
-      ),
-    );
+    controller.takePicture('$tempPath/${DateTime.now()}.png');
+    setState(() {
+      this.count++;
+    });
   }
 
   @override
@@ -69,29 +65,9 @@ class _CameraScreenState extends State<CameraScreen> {
         onPressed: () => tempSave(context),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        color: kPrimary,
-        shape: CircularNotchedRectangle(),
-        clipBehavior: Clip.antiAlias,
-        child: Stack(
-          children: <Widget>[
-            SizedBox(
-              height: 80,
-            ),
-            Positioned(
-              right: 40,
-              top: 5,
-              child: IconButton(
-                  tooltip: 'finish',
-                  icon: Icon(
-                    Icons.check,
-                    color: Colors.white,
-                    size: 30,
-                  ),
-                  onPressed: () => null),
-            )
-          ],
-        ),
+      bottomNavigationBar: BottomBar(
+        fileOperations: widget.fileOperations,
+        count: count,
       ),
     );
   }
