@@ -3,9 +3,12 @@ import 'dart:io';
 
 class FileOperations {
   Directory documentDirectory;
+  Directory tempDirectory;
 
   Future<void> init() async {
     Directory directory = await getApplicationDocumentsDirectory();
+    tempDirectory = await getTemporaryDirectory();
+
     String documentDirPath = directory.path + '/documents';
     // create document directory if does not exist
     this.documentDirectory =

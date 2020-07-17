@@ -2,10 +2,13 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import './preview_body.dart';
 import '../../colors.dart';
-import 'package:path_provider/path_provider.dart';
-import 'dart:io';
+import '../../file_operations.dart';
+import '../confim_screen/confirm_screen.dart';
 
 class CameraScreen extends StatefulWidget {
+  final FileOperations fileOperations;
+  CameraScreen({@required this.fileOperations});
+
   @override
   _CameraScreenState createState() => _CameraScreenState();
 }
@@ -14,7 +17,7 @@ class _CameraScreenState extends State<CameraScreen> {
   CameraController controller;
   List<CameraDescription> cameras;
   dynamic _initializeControllerFuture;
-  String tempPath = '';
+  // String tempPath = '';
   @override
   void initState() {
     super.initState();
@@ -32,17 +35,17 @@ class _CameraScreenState extends State<CameraScreen> {
     super.dispose();
   }
 
-  void tempSave() async {
-    if (this.tempPath.length == 0) {
-      Directory tempDirectory = await getTemporaryDirectory();
-      tempPath = tempDirectory.path;
-    }
-    await controller.takePicture('${this.tempPath}/${DateTime.now()}.png');
-
-    Directory tempDirectory = await getTemporaryDirectory();
-    tempDirectory.list(recursive: true, followLinks: false).listen((event) {
-      print(event.path);
-    });
+  Future<void> tempSave(context) async {
+    String tempPath = widget.fileOperations.tempDirectory.path;
+    await controller.takePicture('$tempPath/${DateTime.now()}.png');
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ConfirmScreen(
+          fileOperations: widget.fileOperations,
+        ),
+      ),
+    );
   }
 
   @override
@@ -62,7 +65,7 @@ class _CameraScreenState extends State<CameraScreen> {
       floatingActionButton: FloatingActionButton(
         tooltip: 'Take a photo',
         child: Icon(Icons.camera),
-        onPressed: tempSave,
+        onPressed: () => tempSave(context),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(

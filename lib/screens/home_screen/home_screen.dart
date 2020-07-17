@@ -39,20 +39,23 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void _addNewDoc() {
-    // function to add new document
-    String fileName = 'New File${this._docNames.length}';
-    this.fileOperations.createDoc(fileName);
-    setState(() {
-      _docNames.add(fileName);
-      _thumbnails.add('new thumbnail');
-    });
-  }
+  // void _addNewDoc() {
+  //   // function to add new document
+  //   String fileName = 'New File${this._docNames.length}';
+  //   this.fileOperations.createDoc(fileName);
+  //   setState(() {
+  //     _docNames.add(fileName);
+  //     _thumbnails.add('new thumbnail');
+  //   });
+  // }
 
   void _launchCamera(context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => CameraScreen()),
+      MaterialPageRoute(
+          builder: (context) => CameraScreen(
+                fileOperations: this.fileOperations,
+              )),
     );
   }
 
