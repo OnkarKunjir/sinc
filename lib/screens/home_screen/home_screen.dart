@@ -49,7 +49,6 @@ class _HomeScreenState extends State<HomeScreen> {
     this._docNames.clear();
     this._thumbnails.clear();
     _getDocNames();
-    print('Called');
   }
 
   void _launchCamera(context) {

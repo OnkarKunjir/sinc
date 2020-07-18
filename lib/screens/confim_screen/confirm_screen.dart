@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../file_operations.dart';
+import '../../export_doc.dart';
 import 'dart:io';
 
 class ConfirmScreen extends StatefulWidget {
@@ -16,6 +17,7 @@ class ConfirmScreen extends StatefulWidget {
 }
 
 class _ConfirmScreenState extends State<ConfirmScreen> {
+  String docName;
   List<String> images = [];
 
   @override
@@ -24,23 +26,54 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
     images.addAll(widget.fileOperations.listDir(widget.docPath));
   }
 
+  void _discard(context) {
+    // empty the cache and go back to home screen.
+    widget.fileOperations.emptyCacheDir();
+    Navigator.of(context).pop();
+  }
+
+  Future<void> _saveDoc(context) async {
+    int l = widget.fileOperations
+        .listDir(widget.fileOperations.documentDirectory.path)
+        .length;
+    this.docName = 'new doc$l';
+    final cd = await widget.fileOperations.confirmDoc(this.docName);
+    widget.confirmCallback();
+    return cd;
+  }
+
+  void _saveExport(context) async {
+    await _saveDoc(context);
+    final ExportDoc exportDoc =
+        ExportDoc(fileOperations: widget.fileOperations, docName: this.docName);
+    exportDoc.asPdf();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.check),
-          onPressed: () {
-            List p = widget.fileOperations
-                .listDir(widget.fileOperations.documentDirectory.path);
-
-            int l = p.length;
-            widget.fileOperations.confirmDoc('new doc$l');
-            widget.confirmCallback();
-            Navigator.of(context).pop();
-          },
+          tooltip: 'Discard',
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => _discard(context),
         ),
+        actions: <Widget>[
+          IconButton(
+            tooltip: 'Save',
+            icon: Icon(Icons.save_alt),
+            onPressed: () {
+              _saveDoc(context);
+              _discard(context);
+            },
+          ),
+          IconButton(
+            tooltip: 'Save and export',
+            icon: Icon(Icons.share),
+            onPressed: () => _saveExport(context),
+          ),
+        ],
       ),
       body: ListView.builder(
         itemBuilder: (ctx, index) {

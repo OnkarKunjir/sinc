@@ -5,15 +5,18 @@ import 'dart:async';
 class FileOperations {
   Directory documentDirectory;
   Directory tempDirectory;
+  Directory exportDir;
 
   Future<void> init() async {
     Directory directory = await getApplicationDocumentsDirectory();
     tempDirectory = await getTemporaryDirectory();
 
     String documentDirPath = directory.path + '/documents';
+    String exportDirPath = directory.path + '/exports';
     // create document directory if does not exist
     this.documentDirectory =
         await Directory(documentDirPath).create(recursive: false);
+    this.exportDir = await Directory(exportDirPath).create(recursive: false);
   }
 
   Future<List<String>> getDocPaths() async {
@@ -49,9 +52,8 @@ class FileOperations {
     this.createDoc(docName);
     List path = listDir(this.tempDirectory.path);
     for (int i = 0; i < path.length; i++) {
-      await File(path[i])
+      File f = await File(path[i])
           .copy('${this.documentDirectory.path}/$docName/$i.png');
     }
-    // List temp = await listDir(this.documentDirectory.path + '/$docName/');
   }
 }
