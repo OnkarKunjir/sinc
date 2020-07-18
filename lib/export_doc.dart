@@ -25,8 +25,8 @@ class ExportDoc {
         pw.Page(
           build: (pw.Context context) {
             return pw.Center(
-              child: pw.Image(image, fit: pw.BoxFit.cover),
-            ); // Center
+              child: pw.Image(image, fit: pw.BoxFit.fill),
+            );
           },
         ),
       );
@@ -38,8 +38,11 @@ class ExportDoc {
     final bytes = file.readAsBytesSync();
 
     await Share.file(
-        'esys image', 'esys.pdf', bytes.buffer.asUint8List(), 'application/pdf',
-        text: 'My optional text.');
+      'document',
+      '$docName.pdf',
+      bytes.buffer.asUint8List(),
+      'application/pdf',
+    );
     return;
   }
 }

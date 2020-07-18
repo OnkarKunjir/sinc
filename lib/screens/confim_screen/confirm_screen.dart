@@ -3,6 +3,8 @@ import '../../file_operations.dart';
 import '../../export_doc.dart';
 import 'dart:io';
 
+// TODO: validate the new document name is not duplicate and other stuff.
+
 class ConfirmScreen extends StatefulWidget {
   final FileOperations fileOperations;
   final String docPath;
@@ -17,8 +19,9 @@ class ConfirmScreen extends StatefulWidget {
 }
 
 class _ConfirmScreenState extends State<ConfirmScreen> {
-  String docName;
   List<String> images = [];
+  final TextEditingController _docNameController =
+      TextEditingController(text: '${DateTime.now()}');
 
   @override
   void initState() {
@@ -36,16 +39,17 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
     int l = widget.fileOperations
         .listDir(widget.fileOperations.documentDirectory.path)
         .length;
-    this.docName = 'new doc$l';
-    final cd = await widget.fileOperations.confirmDoc(this.docName);
+    final cd =
+        await widget.fileOperations.confirmDoc(this._docNameController.text);
     widget.confirmCallback();
     return cd;
   }
 
   void _saveExport(context) async {
     await _saveDoc(context);
-    final ExportDoc exportDoc =
-        ExportDoc(fileOperations: widget.fileOperations, docName: this.docName);
+    final ExportDoc exportDoc = ExportDoc(
+        fileOperations: widget.fileOperations,
+        docName: this._docNameController.text);
     exportDoc.asPdf();
   }
 
@@ -54,6 +58,14 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        title: TextField(
+          controller: _docNameController,
+          autocorrect: false,
+          autofocus: false,
+          decoration: InputDecoration(
+            hintText: 'Document name',
+          ),
+        ),
         leading: IconButton(
           tooltip: 'Discard',
           icon: Icon(Icons.arrow_back),
@@ -63,8 +75,8 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
           IconButton(
             tooltip: 'Save',
             icon: Icon(Icons.save_alt),
-            onPressed: () {
-              _saveDoc(context);
+            onPressed: () async {
+              await _saveDoc(context);
               _discard(context);
             },
           ),
