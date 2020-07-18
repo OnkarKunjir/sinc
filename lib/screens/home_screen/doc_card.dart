@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
+import '../../file_operations.dart';
 import '../../colors.dart';
+import '../viewdoc_screen/viewdoc_screen.dart';
 
 class DocCard extends StatelessWidget {
-  String title, thumbnail;
+  final FileOperations fileOperations;
+  final String title, thumbnail;
+  String shrunked;
   final double cardHeight;
   DocCard({
     @required this.title,
     @required this.thumbnail,
     @required this.cardHeight,
+    @required this.fileOperations,
   }) {
+    shrunked = this.title;
     if (title.length > 15) {
-      print(title.length);
-      title = title.substring(0, 15) + '...';
+      shrunked = shrunked.substring(0, 15) + '...';
     }
   }
 
@@ -41,16 +46,33 @@ class DocCard extends StatelessWidget {
               topLeft: Radius.circular(15),
               topRight: Radius.circular(15),
             ),
-            child: Image.file(
-              File(this.thumbnail),
-              height: this.cardHeight * 0.6,
-              fit: BoxFit.cover,
+            child: Hero(
+              tag: this.title,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ViewDocScreen(
+                        // fileOperations: this.fi,
+                        fileOperations: this.fileOperations,
+                        title: this.title,
+                      ),
+                    ),
+                  );
+                },
+                child: Image.file(
+                  File(this.thumbnail),
+                  height: this.cardHeight * 0.6,
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             child: Text(
-              this.title,
+              this.shrunked,
               textAlign: TextAlign.center,
             ),
           )

@@ -45,9 +45,11 @@ class _CameraScreenState extends State<CameraScreen> {
     // Handle execptions when user click another photo before  takPicutre returns.
     String tempPath = widget.fileOperations.tempDirectory.path;
     await controller.takePicture('$tempPath/${DateTime.now()}.png');
-    setState(() {
-      this.count++;
-    });
+    setState(
+      () {
+        this.count++;
+      },
+    );
   }
 
   @override

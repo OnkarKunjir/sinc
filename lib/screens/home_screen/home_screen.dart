@@ -80,6 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
             docNames: _docNames,
             thumbnails: _thumbnails,
             deleteCallback: deleteCallback,
+            fileOperations: this.fileOperations,
           ),
         ],
       ),

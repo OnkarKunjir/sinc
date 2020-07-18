@@ -11,32 +11,30 @@ class ExportDoc {
   ExportDoc({@required this.fileOperations, @required this.docName});
 
   Future<void> asPdf() async {
-    final pdf = pw.Document();
-    List imagePaths = this.fileOperations.listDir(
-        '${this.fileOperations.documentDirectory.path}/${this.docName}/');
-
-    for (String p in imagePaths) {
-      print('adding image $p');
-      dynamic image = PdfImage.file(
-        pdf.document,
-        bytes: File(p).readAsBytesSync(),
-      );
-      pdf.addPage(
-        pw.Page(
-          build: (pw.Context context) {
-            return pw.Center(
-              child: pw.Image(image, fit: pw.BoxFit.fill),
-            );
-          },
-        ),
-      );
-    }
-
     File file = File('${this.fileOperations.exportDir.path}/$docName.pdf');
-    file = await file.writeAsBytes(pdf.save());
-    print('created pdf :- ${file.path}');
-    final bytes = file.readAsBytesSync();
+    if (!file.existsSync()) {
+      final pdf = pw.Document();
+      List imagePaths = this.fileOperations.listDir(
+          '${this.fileOperations.documentDirectory.path}/${this.docName}/');
 
+      for (String p in imagePaths) {
+        dynamic image = PdfImage.file(
+          pdf.document,
+          bytes: File(p).readAsBytesSync(),
+        );
+        pdf.addPage(
+          pw.Page(
+            build: (pw.Context context) {
+              return pw.Center(
+                child: pw.Image(image, fit: pw.BoxFit.fill),
+              );
+            },
+          ),
+        );
+      }
+      file = await file.writeAsBytes(pdf.save());
+    }
+    final bytes = file.readAsBytesSync();
     await Share.file(
       'document',
       '$docName.pdf',

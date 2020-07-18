@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import '../../file_operations.dart';
 import './doc_card.dart';
 
 class DocList extends StatelessWidget {
   final List<String> docNames;
   final List<String> thumbnails;
   final deleteCallback;
+  final FileOperations fileOperations;
   DocList({
     @required this.docNames,
     @required this.thumbnails,
     @required this.deleteCallback,
+    @required this.fileOperations,
   });
 
   List<Widget> _generateCard(context, cardHeight) {
@@ -26,6 +29,7 @@ class DocList extends StatelessWidget {
             );
           },
           child: DocCard(
+            fileOperations: this.fileOperations,
             title: docNames[index],
             cardHeight: cardHeight,
             thumbnail: thumbnails[index],

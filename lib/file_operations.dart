@@ -34,6 +34,11 @@ class FileOperations {
   void deleteDoc(String docName) {
     Directory(this.documentDirectory.path + '/$docName')
         .deleteSync(recursive: true);
+    File pdf = File(this.exportDir.path + '/$docName.pdf');
+    if (pdf.existsSync()) {
+      print('Found pdf');
+      pdf.delete();
+    }
   }
 
   Future<void> emptyCacheDir() async {
