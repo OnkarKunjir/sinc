@@ -3,13 +3,18 @@ import 'dart:io';
 import '../../colors.dart';
 
 class DocCard extends StatelessWidget {
-  final String title, thumbnail;
+  String title, thumbnail;
   final double cardHeight;
   DocCard({
     @required this.title,
     @required this.thumbnail,
     @required this.cardHeight,
-  });
+  }) {
+    if (title.length > 15) {
+      print(title.length);
+      title = title.substring(0, 15) + '...';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

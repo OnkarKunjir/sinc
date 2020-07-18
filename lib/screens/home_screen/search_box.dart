@@ -33,8 +33,11 @@ class SearchBox extends StatelessWidget {
                   borderRadius: BorderRadius.all(Radius.circular(40)),
                 ),
                 child: TextField(
+                  autofocus: false,
+                  textAlignVertical: TextAlignVertical.center,
                   decoration: InputDecoration(
                     hintText: 'Search',
+                    alignLabelWithHint: true,
                     contentPadding: EdgeInsets.symmetric(vertical: 10),
                     enabledBorder: InputBorder.none,
                     focusedBorder: InputBorder.none,

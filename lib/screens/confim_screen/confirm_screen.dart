@@ -3,8 +3,6 @@ import '../../file_operations.dart';
 import '../../export_doc.dart';
 import 'dart:io';
 
-// TODO: validate the new document name is not duplicate and other stuff.
-
 class ConfirmScreen extends StatefulWidget {
   final FileOperations fileOperations;
   final String docPath;
@@ -36,9 +34,12 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
   }
 
   Future<void> _saveDoc(context) async {
-    int l = widget.fileOperations
-        .listDir(widget.fileOperations.documentDirectory.path)
-        .length;
+    if (this._docNameController.text.length == 0) {
+      this._docNameController.text = '${DateTime.now()}';
+    }
+
+    List l = widget.fileOperations
+        .listDir(widget.fileOperations.documentDirectory.path);
     final cd =
         await widget.fileOperations.confirmDoc(this._docNameController.text);
     widget.confirmCallback();
