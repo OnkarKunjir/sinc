@@ -14,10 +14,6 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<String> _thumbnails = [];
   final fileOperations = FileOperations();
 
-  _HomeScreenState() {
-    _getDocNames();
-  }
-
   Future<void> _getDocNames() async {
     await fileOperations.init();
     List<String> featchedNames = await this.fileOperations.getDocPaths();
@@ -27,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
           (index) => featchedNames[index].split('/').last));
 
       this._thumbnails.addAll(List.generate(
-          featchedNames.length, (index) => featchedNames[index] + '/0.jpeg'));
+          featchedNames.length, (index) => featchedNames[index] + '/0.png'));
     });
   }
 
@@ -49,14 +45,29 @@ class _HomeScreenState extends State<HomeScreen> {
   //   });
   // }
 
+  void confirmCallback() {
+    this._docNames.clear();
+    this._thumbnails.clear();
+    _getDocNames();
+    print('Called');
+  }
+
   void _launchCamera(context) {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => CameraScreen(
-                fileOperations: this.fileOperations,
-              )),
+        builder: (context) => CameraScreen(
+          fileOperations: this.fileOperations,
+          confirmCallback: this.confirmCallback,
+        ),
+      ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getDocNames();
   }
 
   @override
@@ -68,6 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
           SearchBox(),
           DocList(
             docNames: _docNames,
+            thumbnails: _thumbnails,
             deleteCallback: deleteCallback,
           ),
         ],

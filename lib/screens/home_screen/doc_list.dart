@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import './doc_card.dart';
 
-// TODO : Use thumbnails from storage.
 class DocList extends StatelessWidget {
   final List<String> docNames;
+  final List<String> thumbnails;
   final deleteCallback;
-  DocList({@required this.docNames, @required this.deleteCallback});
+  DocList({
+    @required this.docNames,
+    @required this.thumbnails,
+    @required this.deleteCallback,
+  });
 
   List<Widget> _generateCard(context, cardHeight) {
     return List.generate(
@@ -22,11 +26,10 @@ class DocList extends StatelessWidget {
             );
           },
           child: DocCard(
-              title: docNames[index],
-              cardHeight: cardHeight,
-              thumbnail: index.isEven
-                  ? 'assets/images/0.jpeg'
-                  : 'assets/images/1.jpeg'),
+            title: docNames[index],
+            cardHeight: cardHeight,
+            thumbnail: thumbnails[index],
+          ),
         );
       },
     );

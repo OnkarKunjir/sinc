@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import '../../colors.dart';
+import '../../file_operations.dart';
 import '../confim_screen/confirm_screen.dart';
 
 class BottomBar extends StatelessWidget {
-  final fileOperations;
+  final FileOperations fileOperations;
   final int count;
-  BottomBar({@required this.fileOperations, @required this.count});
+  final confirmCallback;
+  BottomBar({
+    @required this.fileOperations,
+    @required this.count,
+    @required this.confirmCallback,
+  });
 
   void _launchConfirm(context) {
     Navigator.pop(context);
@@ -14,6 +20,8 @@ class BottomBar extends StatelessWidget {
       MaterialPageRoute(
         builder: (context) => ConfirmScreen(
           fileOperations: fileOperations,
+          docPath: fileOperations.tempDirectory.path,
+          confirmCallback: this.confirmCallback,
         ),
       ),
     );

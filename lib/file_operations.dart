@@ -38,4 +38,20 @@ class FileOperations {
       await event.delete(recursive: true);
     });
   }
+
+  List<String> listDir(String path) {
+    List dirList =
+        Directory(path).listSync(recursive: false, followLinks: false);
+    return List.generate(dirList.length, (index) => dirList[index].path);
+  }
+
+  Future<void> confirmDoc(String docName) async {
+    this.createDoc(docName);
+    List path = listDir(this.tempDirectory.path);
+    for (int i = 0; i < path.length; i++) {
+      await File(path[i])
+          .copy('${this.documentDirectory.path}/$docName/$i.png');
+    }
+    // List temp = await listDir(this.documentDirectory.path + '/$docName/');
+  }
 }

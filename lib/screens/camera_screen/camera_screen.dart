@@ -6,7 +6,11 @@ import '../../file_operations.dart';
 
 class CameraScreen extends StatefulWidget {
   final FileOperations fileOperations;
-  CameraScreen({@required this.fileOperations}) {
+  final confirmCallback;
+  CameraScreen({
+    @required this.fileOperations,
+    @required this.confirmCallback,
+  }) {
     fileOperations.emptyCacheDir();
   }
 
@@ -37,9 +41,10 @@ class _CameraScreenState extends State<CameraScreen> {
     super.dispose();
   }
 
-  Future<void> tempSave(context) {
+  Future<void> tempSave(context) async {
+    // Handle execptions when user click another photo before  takPicutre returns.
     String tempPath = widget.fileOperations.tempDirectory.path;
-    controller.takePicture('$tempPath/${DateTime.now()}.png');
+    await controller.takePicture('$tempPath/${DateTime.now()}.png');
     setState(() {
       this.count++;
     });
@@ -68,6 +73,7 @@ class _CameraScreenState extends State<CameraScreen> {
       bottomNavigationBar: BottomBar(
         fileOperations: widget.fileOperations,
         count: count,
+        confirmCallback: widget.confirmCallback,
       ),
     );
   }

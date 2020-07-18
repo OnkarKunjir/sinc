@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
 import '../../colors.dart';
 
 class DocCard extends StatelessWidget {
@@ -35,8 +36,8 @@ class DocCard extends StatelessWidget {
               topLeft: Radius.circular(15),
               topRight: Radius.circular(15),
             ),
-            child: Image.asset(
-              this.thumbnail,
+            child: Image.file(
+              File(this.thumbnail),
               height: this.cardHeight * 0.6,
               fit: BoxFit.cover,
             ),
