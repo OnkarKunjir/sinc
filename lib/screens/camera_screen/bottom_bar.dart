@@ -14,17 +14,26 @@ class BottomBar extends StatelessWidget {
   });
 
   void _launchConfirm(context) {
-    Navigator.pop(context);
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ConfirmScreen(
-          fileOperations: fileOperations,
-          docPath: fileOperations.tempDirectory.path,
-          confirmCallback: this.confirmCallback,
+    if (this.count > 0) {
+      Navigator.pop(context);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ConfirmScreen(
+            fileOperations: fileOperations,
+            docPath: fileOperations.tempDirectory.path,
+            confirmCallback: this.confirmCallback,
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          duration: Duration(seconds: 1),
+          content: Text('I think you would like to click few photos first :)'),
+        ),
+      );
+    }
   }
 
   @override

@@ -21,6 +21,7 @@ class CameraScreen extends StatefulWidget {
 class _CameraScreenState extends State<CameraScreen> {
   CameraController controller;
   int count = 0;
+  bool waiting = false;
 
   List<CameraDescription> cameras;
   dynamic _initializeControllerFuture;
@@ -41,15 +42,23 @@ class _CameraScreenState extends State<CameraScreen> {
     super.dispose();
   }
 
-  Future<void> tempSave(context) async {
-    // Handle execptions when user click another photo before  takPicutre returns.
-    String tempPath = widget.fileOperations.tempDirectory.path;
-    await controller.takePicture('$tempPath/${DateTime.now()}.png');
-    setState(
-      () {
-        this.count++;
-      },
-    );
+  void tempSave(context) {
+    if (!waiting) {
+      waiting = true;
+      String tempPath = widget.fileOperations.tempDirectory.path;
+      controller.takePicture('$tempPath/${DateTime.now()}.png').then(
+        (value) {
+          waiting = false;
+          setState(
+            () {
+              this.count++;
+            },
+          );
+        },
+      );
+
+      // waiting = false;
+    }
   }
 
   @override

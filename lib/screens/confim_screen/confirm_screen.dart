@@ -52,6 +52,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
         fileOperations: widget.fileOperations,
         docName: this._docNameController.text);
     exportDoc.asPdf();
+    this._discard(context);
   }
 
   @override
