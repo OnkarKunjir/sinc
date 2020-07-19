@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 ThemeData sincTheme(ThemeData base) {
   return base.copyWith(
     primaryColor: kPrimary,
-    scaffoldBackgroundColor: kScaffoldBackground,
+    // scaffoldBackgroundColor: kScaffoldBackground,
     floatingActionButtonTheme: base.floatingActionButtonTheme.copyWith(
       backgroundColor: kPrimary,
     ),

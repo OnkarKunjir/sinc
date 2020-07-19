@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../file_operations.dart';
 import './doc_card.dart';
 
@@ -51,12 +52,20 @@ class DocList extends StatelessWidget {
             delegate: SliverChildListDelegate(
               [
                 Center(
-                  child: Image.asset(
-                    'assets/images/empty.png',
+                    child: Container(
+                  width: size.width,
+                  height: size.height * 0.8,
+
+                  child: SvgPicture.asset(
+                    'assets/images/empty.svg',
                     fit: BoxFit.fitWidth,
-                    height: 400,
                   ),
-                ),
+                  // child: Image.asset(
+                  //   'assets/images/empty.png',
+                  //   fit: BoxFit.fitWidth,
+                  //   height: 400,
+                  // ),
+                ))
               ],
             ),
           )

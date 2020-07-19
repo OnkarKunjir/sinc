@@ -7,9 +7,10 @@ class SearchBox extends StatelessWidget {
       elevation: 10,
       floating: true,
       snap: true,
-      title: Text('Sinc'),
+      // title: Text('Sinc'),
+
       pinned: true,
-      leading: IconButton(icon: Icon(Icons.menu), onPressed: () => null),
+      // leading: IconButton(icon: Icon(Icons.menu), onPressed: () => null),
       expandedHeight: 50,
       shape: ContinuousRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -17,9 +18,16 @@ class SearchBox extends StatelessWidget {
           bottomRight: Radius.circular(80),
         ),
       ),
-      // flexibleSpace: FlexibleSpaceBar(
-      //   title: Text('Sinc'),
-      // ),
+      flexibleSpace: FlexibleSpaceBar(
+        title: Text('Sinc'),
+      ),
+      actions: <Widget>[
+        IconButton(
+          tooltip: 'Search',
+          icon: Icon(Icons.search),
+          onPressed: () => null,
+        ),
+      ],
       // flexibleSpace: FlexibleSpaceBar(
       //   background: Stack(
       //     children: <Widget>[
