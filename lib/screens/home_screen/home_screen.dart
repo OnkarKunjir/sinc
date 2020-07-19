@@ -14,17 +14,21 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<String> _thumbnails = [];
   final fileOperations = FileOperations();
 
+  String currentQuery = '';
+
   Future<void> _getDocNames() async {
     await fileOperations.init();
     List<String> featchedNames = await this.fileOperations.getDocPaths();
 
-    setState(() {
-      this._docNames.addAll(List.generate(featchedNames.length,
-          (index) => featchedNames[index].split('/').last));
+    setState(
+      () {
+        this._docNames.addAll(List.generate(featchedNames.length,
+            (index) => featchedNames[index].split('/').last));
 
-      this._thumbnails.addAll(List.generate(
-          featchedNames.length, (index) => featchedNames[index] + '/0.png'));
-    });
+        this._thumbnails.addAll(List.generate(
+            featchedNames.length, (index) => featchedNames[index] + '/0.png'));
+      },
+    );
   }
 
   dynamic deleteCallback(int index) {
@@ -34,16 +38,6 @@ class _HomeScreenState extends State<HomeScreen> {
       this._thumbnails.removeAt(index);
     });
   }
-
-  // void _addNewDoc() {
-  //   // function to add new document
-  //   String fileName = 'New File${this._docNames.length}';
-  //   this.fileOperations.createDoc(fileName);
-  //   setState(() {
-  //     _docNames.add(fileName);
-  //     _thumbnails.add('new thumbnail');
-  //   });
-  // }
 
   void confirmCallback() {
     this._docNames.clear();
@@ -77,8 +71,8 @@ class _HomeScreenState extends State<HomeScreen> {
         slivers: <Widget>[
           SearchBox(),
           DocList(
-            docNames: _docNames,
-            thumbnails: _thumbnails,
+            docNames: this._docNames,
+            thumbnails: this._thumbnails,
             deleteCallback: deleteCallback,
             fileOperations: this.fileOperations,
           ),
